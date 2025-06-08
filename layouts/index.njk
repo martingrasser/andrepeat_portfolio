@@ -24,13 +24,13 @@ body, .home-block, .featured-block, .nav-title, .nav-link, .block-label {
 .featured-image {
   width: 100%;
   aspect-ratio: 16/9;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 .home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gutter);
+  gap: 16px;
   width: calc(100vw - 2 * var(--gutter));
   box-sizing: border-box;
   padding: 0;
@@ -53,6 +53,7 @@ body, .home-block, .featured-block, .nav-title, .nav-link, .block-label {
   cursor: pointer;
   overflow: hidden;
   border: none;
+  position: relative;
 }
 .project-image-wrapper {
   width: 100%;
@@ -68,6 +69,7 @@ body, .home-block, .featured-block, .nav-title, .nav-link, .block-label {
   margin: 0;
   padding: 0;
   transition: filter 0.25s;
+  aspect-ratio: 16/9;
 }
 .home-block:hover .project-image {
   filter: brightness(0.7) saturate(1.1);
@@ -79,32 +81,42 @@ body, .home-block, .featured-block, .nav-title, .nav-link, .block-label {
 .aspect-4x3 { aspect-ratio: 4/3; }
 .aspect-3x4 { aspect-ratio: 3/4; }
 .project-content {
-  padding: 1.1rem 0 1.2rem 0;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
+  height: 100%;
+  background: rgba(24,24,24,0.82);
+  color: #fff;
+  z-index: 2;
+  padding: 2.2em 1.5em 2em 1.5em;
   box-sizing: border-box;
-  background: #fff;
-  text-align: left;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: '188 Sans', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
 }
-.project-row {
+.home-block:hover .project-content {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  width: 100%;
-  padding-top: 0px;
+  opacity: 1;
+  pointer-events: auto;
+}
+/* Hide only block-label and project-tags, not project-row */
+.block-label, .project-tags {
+  display: none !important;
 }
 .project-title {
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 1.2em;
   margin-bottom: 0;
-}
-.block-label {
-  font-size: 0.8em;
-  color: var(--grey70);
-  font-weight: normal;
-  letter-spacing: 0.1em;
   display: block;
-  text-align: right;
-  margin: 0;
 }
 .project-tags {
   display: flex;
@@ -140,7 +152,7 @@ body, .home-block, .featured-block, .nav-title, .nav-link, .block-label {
 .hero-slide {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
   z-index: 1;
@@ -227,72 +239,171 @@ body, .home-block, .featured-block, .nav-title, .nav-link, .block-label {
   font-weight: 400;
   font-style: normal;
 }
+.homepage-tagline {
+  font-size: 10pt;
+  font-weight: normal;
+  color: var(--grey70);
+  margin-top: 70px;
+  margin-left: var(--gutter);
+  margin-bottom: 0.5em;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
 </style>
 
 <div class="featured-block">
   <div class="hero-slideshow">
-    <img class="hero-slide" src="/images/Home_Hero/Bird_5CS-09_h.png" alt="Hero 1" style="opacity:1; z-index:2;">
+    <img class="hero-slide" src="/images/Home_Hero/1b.png" alt="light" style="opacity:1; z-index:2;">
+    <img class="hero-slide" src="/images/Home_Hero/2.png" alt="light" style="opacity:0; z-index:1;">
   </div>
 </div>
 
 <div class="home-grid">
-{% set aspects = ["aspect-16x9", "aspect-1x1", "aspect-9x16", "aspect-4x3", "aspect-3x4"] %}
-{% set images = [
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1465101178521-c1a9136a3b43?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-] %}
-{% for i in range(1, 21) %}
-  <div class="home-block">
+
+ <!-- Design: Twitter -->
+  <a class="home-block" href="/projects/twitter/">
     <span class="project-image-wrapper">
-      <img class="project-image {{ aspects[(i-1) % aspects.length] }}" src="{{ images[(i-1) % images.length] }}" alt="Project {{ i }}" />
+      <img class="project-image aspect-1x1" src="/images/design/Twitter/tile/Twitter_Circles_1920x1280.png" alt="Twitter" />
     </span>
     <div class="project-content">
       <div class="project-row">
-        <div class="project-title">Project {{ i }}</div>
-        <span class="block-label">(Description or image)</span>
+        <div class="project-title">Twitter</div>
+        <span class="block-label">Design</span>
       </div>
       <div class="project-tags">
-        {% set tagsets = [
-          ["Painting", "2024"],
-          ["Editorial", "Branding"],
-          ["Sculpture", "2023"],
-          ["Digital", "2022"],
-          ["Installation", "2021"]
-        ] %}
-        {% for tag in tagsets[(i-1) % tagsets.length] %}
-          <span class="project-tag">{{ tag }}</span>
-        {% endfor %}
+        <span class="project-tag">Branding</span>
+        <span class="project-tag">Logo</span>
       </div>
     </div>
-  </div>
-{% endfor %}
-</div>
-
-<div class="typographic-homepage">
-  {% set fontRows = [
-    { name: 'Geometric Sans', class: 'geometric-sans', url: '/typography/geometric-sans/', family: 'Geometric Sans' },
-    { name: '188 Sans', class: 'sans-188', url: '/typography/188-sans/', family: '188 Sans' },
-    { name: 'Sunnyside', class: 'sunnyside', url: '/typography/sunnyside/', family: 'Sunnyside' },
-    { name: 'Haven', class: 'haven', url: '/typography/haven/', family: 'Haven' },
-    { name: 'Roman Serif', class: 'roman-serif', url: '/typography/roman-serif/', family: 'Roman Serif' },
-    { name: 'Color Dot', class: 'color-dot', url: '/typography/color-dot/', family: 'Color Dot' }
-  ] %}
-  {% set chars = "abcdefghijklmnopqrstuvwxyz.,;:!?@#$%^&*()-_=+[]{}|/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789½¼¾⅓⅔⅛⅜⅝⅞" %}
-  {% for row in fontRows %}
-    <a href="{{ row.url }}" class="typographic-marquee-row {{ row.class }}" style="text-decoration:none;">
-      <span class="typographic-marquee-inner {% if loop.index0 % 2 == 0 %}left{% else %}right{% endif %}" style="font-family: '{{ row.family }}', Arial, sans-serif;">
-        {% for i in range(0, chars | length) %}
-          <span class="typographic-marquee-group">{{ chars[i] }}</span>
-        {% endfor %}
-        {% for i in range(0, chars | length) %}
-          <span class="typographic-marquee-group">{{ chars[i] }}</span>
-        {% endfor %}
-      </span>
-    </a>
-  {% endfor %}
+  </a>
+  <!-- Design: Nike -->
+  <a class="home-block" href="/projects/Nike/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/design/nike/MococoWeb_Nike_1920x1080.jpg" alt="Dont Font" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Nike</div>
+        <span class="block-label">Design</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Film</span>
+        <span class="project-tag">Nike</span>
+      </div>
+    </div>
+  </a>
+  <!-- Art: Oracle RedBull Racing -->
+  <a class="home-block" href="/projects/Intervals/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/art/Intervals/bahrain_sq.png" alt="Themes and Variations" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Intervals</div>
+        <span class="block-label">Art</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Digital Art</span>
+        <span class="project-tag">Series</span>
+      </div>
+    </div>
+  </a>
+  <!-- Design: Public (fixed image path) -->
+  <a class="home-block" href="/projects/public/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/design/Public/tile/logo_blue_sq.jpg" alt="Public" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Public</div>
+        <span class="block-label">Design</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Branding</span>
+        <span class="project-tag">Identity</span>
+      </div>
+    </div>
+  </a>
+  <!-- Art: Love -->
+  <a class="home-block" href="/projects/Love/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/art/Love/Love_108.png" alt="Love" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Love, The Tennis Art Project</div>
+        <span class="block-label">Art</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Generative</span>
+        <span class="project-tag">2022</span>
+      </div>
+    </div>
+  </a>
+  <!-- Design: Carta -->
+  <a class="home-block" href="/projects/carta/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/design/Carta/01_Logo animation.jpg" alt="Nike" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Carta</div>
+        <span class="block-label">Design</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Identity</span>
+        <span class="project-tag">Logotype</span>
+      </div>
+    </div>
+  </a>
+  <!-- Design: Kodiak -->
+  <a class="home-block" href="/projects/Kodiak/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/design/Kodiak/tile/Kodiak_K.jpg" alt="Geometric Sans" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Kodiak</div>
+        <span class="block-label">Design</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Design</span>
+        <span class="project-tag">2021</span>
+      </div>
+    </div>
+  </a>
+  <!-- Experiments: Portraits (external) -->
+  <a class="home-block" href="https://portraits.martingrasser.com" target="_blank">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/typography/Sunnyside/large_sketching-eArtboard_3.png" alt="Portraits" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Portraits</div>
+        <span class="block-label">Experiment</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">AI</span>
+        <span class="project-tag">Web</span>
+      </div>
+    </div>
+  </a>
+  <!-- Experiments: Experiments -->
+  <a class="home-block" href="/experiments/">
+    <span class="project-image-wrapper">
+      <img class="project-image aspect-1x1" src="/images/design/SoftBank/VisionFund/Tile/VisionFund_Logo_1280x1280-100.jpg" alt="Experiments" />
+    </span>
+    <div class="project-content">
+      <div class="project-row">
+        <div class="project-title">Experiments</div>
+        <span class="block-label">Experiment</span>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Interactive</span>
+        <span class="project-tag">Code</span>
+      </div>
+    </div>
+  </a>
 </div>
 
 <script>
